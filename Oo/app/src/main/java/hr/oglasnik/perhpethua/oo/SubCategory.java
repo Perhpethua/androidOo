@@ -48,7 +48,7 @@ public class SubCategory extends AppCompatActivity {
 		idBotuna = getIntent().getExtras().getString("url");
 		clicked = getIntent().getExtras().getString("clickedrow");
 
-		TextView t3 = (TextView) findViewById(R.id.id_tv);
+		final TextView t3 = (TextView) findViewById(R.id.id_tv);
 		t3.setText(" >" + clicked);
 		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
 		new JSONTask().execute(fullurl);
@@ -61,7 +61,21 @@ public class SubCategory extends AppCompatActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(SubCategory.this, "List item clicked at " + position, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(SubCategory.this, "List item clicked at " + position, Toast.LENGTH_SHORT).show();
+				Categories categories = (Categories) categoryAdapter.getItem(position);
+				String ides = categories.getId();
+				String clickedrow = categories.getName();
+				
+					String urls = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + ides;
+					new JSONTask().execute(urls);
+					listView = (ListView) findViewById(R.id.id_listview_sub);
+					categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
+					t3.setText(" >" + clickedrow);
+				/*String isEnd = categories.getCatEnd();
+				if (isEnd != null){
+				 	Intent in = new Intent(SubCategory.this, OpenPage.class);
+					startActivity(in);
+				}*/
 			}
 		});
 	}
