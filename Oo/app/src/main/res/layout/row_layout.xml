@@ -18,7 +18,7 @@
         android:textStyle="bold"
         />
     <!--android:background="@color/colorAccent"-->
-   <!-- <ImageButton
+  <!-- <ImageButton
         android:layout_width="@dimen/next_button_w_h"
         android:layout_height="@dimen/next_button_w_h"
         app:srcCompat="@drawable/next"

@@ -58,11 +58,17 @@ public class DisplayListView extends AppCompatActivity {
 				String idkat = categories.getId(); //dohvati id imena reda
 				String clickedrow = categories.getName();
 
-				//listView.invalidateViews();
+				//MainActivity mm = new MainActivity();
+				//mm.new BackgroundTask(idkat);
 
+
+				//new JSONTask().execute("http://slaviceva40.zapto.org/ajax/jsonCategories/"+idkat);
+
+				//listView.invalidateViews();
 				Intent intent = new Intent(DisplayListView.this, SubCategory.class);
 				intent.putExtra("url",idkat);
 				intent.putExtra("clickedrow", clickedrow);
+				intent.putExtra("niz", niz);
 				startActivity(intent);
 			}
 		});
@@ -77,6 +83,7 @@ public class DisplayListView extends AppCompatActivity {
 			String urlFromJ;
 			String parentId;
 			String idKategorije;
+			String jelikraj; //ako nije null onda neka otvori web wiew sa urlFromJ nastavkom
 
 			while (count < jsonArray.length()) {
 				JSONObject JO = jsonArray.getJSONObject(count);
@@ -85,13 +92,15 @@ public class DisplayListView extends AppCompatActivity {
 				parentId = JO.getString("parent_id");
 				name = JO.getString("name");
 				urlFromJ = JO.getString("url");
+				jelikraj = JO.getString("transaction_type_id");
 
-				Categories categories = new Categories(idKategorije, parentId, name, urlFromJ);
+				Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj);
 				categoryAdapter.add(categories);
 				count++;
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		categoryAdapter.notifyDataSetChanged();
 	}
 }

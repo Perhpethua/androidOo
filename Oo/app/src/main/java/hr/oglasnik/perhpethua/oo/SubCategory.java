@@ -50,15 +50,12 @@ public class SubCategory extends AppCompatActivity {
 
 		TextView t3 = (TextView) findViewById(R.id.id_tv);
 		t3.setText(" >" + clicked);
-
-		MainActivity m = new MainActivity();
-		//m.getJson(idBotuna);
-		m.new BackgroundTask(idBotuna).execute();
-		String niz = m.json_string;
+		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
+		new JSONTask().execute(fullurl);
 
 		listView = (ListView) findViewById(R.id.id_listview_sub);
 		categoryAdapter = new CategoryAdapter(this, R.layout.row_layout);
-		listView.setAdapter(categoryAdapter);
+
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -67,94 +64,86 @@ public class SubCategory extends AppCompatActivity {
 				Toast.makeText(SubCategory.this, "List item clicked at " + position, Toast.LENGTH_SHORT).show();
 			}
 		});
-
-		try {
-			//jsonObject = new JSONObject(json_string); //starts with [ not {
-			jsonArray = new JSONArray(niz); //get the array
-			int count = 0;
-			String name;
-			String urlFromJ;
-			String parentId;
-			String idKategorije;
-
-			while (count < jsonArray.length()) {
-				JSONObject JO = jsonArray.getJSONObject(count);
-
-				idKategorije = JO.getString("id");
-				parentId = JO.getString("parent_id");
-				name = JO.getString("name");
-				urlFromJ = JO.getString("url");
-
-				Categories categories = new Categories(idKategorije, parentId, name, urlFromJ);
-				categoryAdapter.add(categories);
-				count++;
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
 	}
-/*
-	public String setUrl(String urlNastavak){
-		String json_url;
-		json_url = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + urlNastavak;
-		return json_url;
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public void getJson(String idkategorije){
-		new BackgroundTask1(idkategorije).execute();
-	}
-
-	class BackgroundTask1 extends AsyncTask<Void, Void, String> {
-
-		private final String idkategorije;
-		String json_url;
-		String line;
-
-		public BackgroundTask1(String idkategorije) {
-			this.idkategorije = idkategorije;
-		}
+	private class JSONTask extends AsyncTask<String, String, String>{
 
 		@Override
-		protected void onPreExecute() {
-			json_url = setUrl(idkategorije);
-		}
+		protected String doInBackground(String... urls) {
 
-		@Override
-		protected String doInBackground(Void... voids) {
-			try{
-				URL url = new URL(json_url);
-				HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-				httpURLConnection.connect();
+			//spajanje na server
+			HttpURLConnection connection = null;
+			BufferedReader bufferedReader = null; //inicjalizacija da bi se vidio u finally bloku
+			//url
+			try {
+				URL url = new URL(urls[0]); //new URL(urls[0]); gleda prvi ulazni vrijednost od AsyncTask i doInBackground
+				connection = (HttpURLConnection) url.openConnection();//otvaranje veze po zadanom url
+				connection.connect();//spajanje
 
-				InputStream inputStream = httpURLConnection.getInputStream();
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+				//spremanje
+				InputStream inputStream = connection.getInputStream();
+				bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-				StringBuilder stringBuilder = new StringBuilder();
+				String line="";
+				StringBuffer stringBuffer = new StringBuffer();
 				while ((line = bufferedReader.readLine()) != null){
-					stringBuilder.append(line);
+					stringBuffer.append(line);
 				}
-				bufferedReader.close();
-				inputStream.close();
-				httpURLConnection.disconnect();
+//----------------------------------parsingJSON----------------------------------------------------------------------------
+				String finalJSON = stringBuffer.toString();
+//----------------------------------KREIRANJE OBJEKATA I NIZOVA------------------------------------------------------------
+				try {
+					//jsonObject = new JSONObject(json_string); //starts with [ not {
+					jsonArray = new JSONArray(finalJSON); //get the array
+					int count = 0;
+					String name;
+					String urlFromJ;
+					String parentId;
+					String idKategorije;
+					String jelikraj; //ako nije null onda neka otvori web wiew sa urlFromJ nastavkom
 
-				return stringBuilder.toString().trim();
+					while (count < jsonArray.length()) {
+						JSONObject JO = jsonArray.getJSONObject(count);
 
+						idKategorije = JO.getString("id");
+						parentId = JO.getString("parent_id");
+						name = JO.getString("name");
+						urlFromJ = JO.getString("url");
+						jelikraj = JO.getString("transaction_type_id");
+
+						Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj);
+						categoryAdapter.add(categories);
+						count++;
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				//ispis
+				return finalJSON; // da bi ispisao podatke -> šalje se u onPostExecute
+//------------------------------------endParsingJson------------------------------------------------------------------------
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				if (connection != null) {//provjera da je veza uspostavljena
+					connection.disconnect();
+				}
+				if (bufferedReader != null) {//ako je nula--> trebalo bi ga inicjalizirat -->nijw potrebno zatvarati
+					try {
+						bufferedReader.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 			return null;
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values) {
-			super.onProgressUpdate(values);
-		}
+		protected void onPostExecute(String result) {//izvodi se u main thread
+			super.onPostExecute(result);
+			listView.setAdapter(categoryAdapter);
 
-		@Override
-		protected void onPostExecute(String result) {
-			json_string = result;
 		}
-	}*/
+	}
 }

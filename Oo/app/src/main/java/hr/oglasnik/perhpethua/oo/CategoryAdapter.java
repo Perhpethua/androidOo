@@ -59,7 +59,6 @@ public class CategoryAdapter extends ArrayAdapter {
 		//set resource for category holder
 //ONO ŠTO PIŠE U REDU ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		categoryHolder.tx_name.setText(categories.getName());
-		notifyDataSetChanged();
 		//categoryHolder.tx_name.setText(categories.getUrlFromJson());
 		return row;
 	}

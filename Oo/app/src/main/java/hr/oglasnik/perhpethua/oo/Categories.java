@@ -9,13 +9,15 @@ public class Categories {
 	private String urlFromJson;
 	private String parentId;
 	private String id;
+	private String catEnd;
 
 //class constructor ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public Categories(String id, String parentId, String name, String urlFromJson) {
+	public Categories(String id, String parentId, String name, String urlFromJson, String catEnd) {
 		this.id = id;
 		this.parentId = parentId;
 		this.name = name;
 		this.urlFromJson = urlFromJson;
+		this.catEnd = catEnd;
 	}
 //getters and setters ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -50,5 +52,13 @@ public class Categories {
 
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
+	}
+
+	public String getCatEnd() {
+		return catEnd;
+	}
+
+	public void setCatEnd(String catEnd) {
+		this.catEnd = catEnd;
 	}
 }
