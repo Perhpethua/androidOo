@@ -65,17 +65,18 @@ public class SubCategory extends AppCompatActivity {
 				Categories categories = (Categories) categoryAdapter.getItem(position);
 				String ides = categories.getId();
 				String clickedrow = categories.getName();
-				
+				String isEnd = categories.getCatEnd().toString();
+				if ("null".equals(isEnd)){
 					String urls = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + ides;
 					new JSONTask().execute(urls);
 					listView = (ListView) findViewById(R.id.id_listview_sub);
 					categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
 					t3.setText(" >" + clickedrow);
-				/*String isEnd = categories.getCatEnd();
-				if (isEnd != null){
-				 	Intent in = new Intent(SubCategory.this, OpenPage.class);
+				}else{
+					Intent in = new Intent(SubCategory.this, OpenPage.class);
+					in.putExtra("kraj", isEnd);
 					startActivity(in);
-				}*/
+				}
 			}
 		});
 	}
@@ -157,7 +158,6 @@ public class SubCategory extends AppCompatActivity {
 		protected void onPostExecute(String result) {//izvodi se u main thread
 			super.onPostExecute(result);
 			listView.setAdapter(categoryAdapter);
-
 		}
 	}
 }

@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
 		TextView t2 = (TextView) findViewById(R.id.forgot_password_link);
 		t2.setMovementMethod(LinkMovementMethod.getInstance());
-		//new JSONTask().execute("1");
 		getJson("1");
 	}
 	//------------------------------------- end onCreate -------------------------------------------
