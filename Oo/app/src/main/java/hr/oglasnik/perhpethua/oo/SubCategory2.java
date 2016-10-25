@@ -23,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 
 public class SubCategory2 extends AppCompatActivity implements AsyncResponse{
 
-	String json_string;
 	JSONArray jsonArray;
 	CategoryAdapter categoryAdapter;
 	ListView listView;
@@ -48,7 +47,7 @@ public class SubCategory2 extends AppCompatActivity implements AsyncResponse{
 
 		t3.setText("> " + clicked);
 		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
-		//new SubCategory.JSONTask().execute(fullurl);
+
 		noviJsonTask asyncTask = new noviJsonTask();
 		asyncTask.delegate = this;
 		asyncTask.execute(fullurl);
