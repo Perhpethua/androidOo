@@ -67,7 +67,6 @@ public class DisplayListView extends AppCompatActivity {
 				Intent intent = new Intent(DisplayListView.this, SubCategory.class);
 				intent.putExtra("url",idkat);
 				intent.putExtra("clickedrow", clickedrow);
-				intent.putExtra("niz", niz);
 				startActivity(intent);
 			}
 		});

@@ -54,7 +54,7 @@ public class SubCategory extends AppCompatActivity {
 		final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
 		final TextView t3 = (TextView) findViewById(R.id.id_tv);
 
-		btnnavigate.setOnClickListener(new AdapterView.OnClickListener(){
+		/*btnnavigate.setOnClickListener(new AdapterView.OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
@@ -67,7 +67,7 @@ public class SubCategory extends AppCompatActivity {
 				listView = (ListView) findViewById(R.id.id_listview_sub);
 				categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
 			}
-		});
+		});*/
 
 		t3.setText("> " + clicked);
 		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
@@ -83,21 +83,22 @@ public class SubCategory extends AppCompatActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				//Toast.makeText(SubCategory.this, "List item clicked at " + position, Toast.LENGTH_SHORT).show();
 				Categories categories = (Categories) categoryAdapter.getItem(position);
-				String ides = categories.getId();
+				String idkat = categories.getId();
 				String clickedrow = categories.getName();
-				btnnavigate.setText(clicked);
 				String isEnd = categories.getCatEnd().toString();
-				if ("null".equals(isEnd)){
-					String urls = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + ides;
-					new JSONTask().execute(urls);
-					listView = (ListView) findViewById(R.id.id_listview_sub);
-					categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
-					t3.setText("> " + clickedrow);
-				}else{
+
+				if ("null".equals(isEnd)) {
+					Intent intent = new Intent(SubCategory.this, SubCategory2.class);
+					intent.putExtra("url", idkat); //id kategorije za url
+					intent.putExtra("clickedrow", clickedrow); //ime kliknutog reda stavlja se u btn
+					startActivity(intent);
+				}else {
 					Intent in = new Intent(SubCategory.this, OpenPage.class);
 					in.putExtra("kraj", isEnd);
 					startActivity(in);
 				}
+//--------------------------------------------------------------------------------------------------------------------------
+			//	btnnavigate.setText(clicked);
 			}
 		});
 	}
