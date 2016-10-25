@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimary">#484848</color>
     <color name="colorPrimaryDark">#00D2FF</color>
     <color name="colorAccent">#1B2649</color>
     <color name="btn_text_color">#FFFFFF</color>
     <color name="light_background">#EBF3F7</color>
+    <color name="colorButtonNormal">#5555</color>
+    <color name="colorBackground">#4400ff</color>
+    <color name="colorControlNormal">#000000</color>
+    <color name="textColorPrimary">#FFF</color>
 </resources>

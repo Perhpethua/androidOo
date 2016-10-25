@@ -5,20 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-public class OpenPage extends AppCompatActivity {
+public class SubCategory3 extends AppCompatActivity {
 
-	String jelikraj;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_open_page);
-
-		jelikraj = getIntent().getExtras().getString("kraj");
-
-		TextView prikazi = (TextView) findViewById(R.id.id_prikazi);
-		prikazi.setText(jelikraj);
+		setContentView(R.layout.activity_sub_category3);
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -18,15 +18,14 @@
         android:textStyle="bold"
         />
     <!--android:background="@color/colorAccent"-->
-  <!-- <ImageButton
+   <!--<ImageView
         android:layout_width="@dimen/next_button_w_h"
         android:layout_height="@dimen/next_button_w_h"
         app:srcCompat="@drawable/next"
         android:layout_alignParentTop="false"
         android:layout_alignParentEnd="true"
-        android:id="@+id/imageButton3"
+        android:id="@+id/id_imgbtn_next"
         android:background="@null"
-        android:layout_marginTop="13dp"
-        />-->
+        android:layout_marginTop="13dp"/>-->
 
 </RelativeLayout>

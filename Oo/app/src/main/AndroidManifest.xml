@@ -24,33 +24,52 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- ********************************************************************************************* -->
         <activity android:name=".ForgotPassword">
         </activity>
+        <!-- ********************************************************************************************* -->
         <activity
             android:name=".registration"
             android:label="@string/title_activity_registration">
         </activity>
+        <!-- ********************************************************************************************* -->
         <activity
             android:name=".Addfile"
             android:label="@string/title_activity_addfile">
         </activity>
+        <!-- ********************************************************************************************* -->
         <activity
             android:name=".login"
             android:label="@string/title_activity_login">
         </activity>
-        <activity
-            android:name=".lista_kategorija"
-            android:label="@string/title_activity_category">
-        </activity>
+        <!-- ********************************************************************************************* -->
         <activity
             android:name=".search"
             android:label="@string/search">
         </activity>
-        <activity android:name=".DisplayListView">
+        <!-- ********************************************************************************************* -->
+        <activity
+            android:name=".DisplayListView"
+            android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".SubCategory">
+        <!-- ********************************************************************************************* -->
+        <activity
+            android:name=".SubCategory"
+            android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".OpenPage">
+        <!-- ********************************************************************************************* -->
+        <activity
+            android:name=".OpenPage"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <!-- ********************************************************************************************* -->
+        <activity
+            android:name=".SubCategory2"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+            android:name=".SubCategory3"
+            android:parentActivityName=".MainActivity">
         </activity>
     </application>
 

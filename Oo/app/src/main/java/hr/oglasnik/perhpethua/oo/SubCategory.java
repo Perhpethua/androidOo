@@ -2,10 +2,13 @@ package hr.oglasnik.perhpethua.oo;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -48,8 +51,25 @@ public class SubCategory extends AppCompatActivity {
 		idBotuna = getIntent().getExtras().getString("url");
 		clicked = getIntent().getExtras().getString("clickedrow");
 
+		final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
 		final TextView t3 = (TextView) findViewById(R.id.id_tv);
-		t3.setText(" >" + clicked);
+
+		btnnavigate.setOnClickListener(new AdapterView.OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if (btnnavigate.getText().toString().equals("Kategorije")){
+
+				}
+				Toast.makeText(SubCategory.this, "Botun kliknut" + idBotuna, Toast.LENGTH_SHORT).show(); //radi
+				String urlbtn = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
+				new JSONTask().execute(urlbtn);
+				listView = (ListView) findViewById(R.id.id_listview_sub);
+				categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
+			}
+		});
+
+		t3.setText("> " + clicked);
 		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
 		new JSONTask().execute(fullurl);
 
@@ -65,13 +85,14 @@ public class SubCategory extends AppCompatActivity {
 				Categories categories = (Categories) categoryAdapter.getItem(position);
 				String ides = categories.getId();
 				String clickedrow = categories.getName();
+				btnnavigate.setText(clicked);
 				String isEnd = categories.getCatEnd().toString();
 				if ("null".equals(isEnd)){
 					String urls = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + ides;
 					new JSONTask().execute(urls);
 					listView = (ListView) findViewById(R.id.id_listview_sub);
 					categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
-					t3.setText(" >" + clickedrow);
+					t3.setText("> " + clickedrow);
 				}else{
 					Intent in = new Intent(SubCategory.this, OpenPage.class);
 					in.putExtra("kraj", isEnd);
@@ -80,7 +101,7 @@ public class SubCategory extends AppCompatActivity {
 			}
 		});
 	}
-	private class JSONTask extends AsyncTask<String, String, String>{
+public class JSONTask extends AsyncTask<String, String, String>{
 
 		@Override
 		protected String doInBackground(String... urls) {
@@ -105,35 +126,9 @@ public class SubCategory extends AppCompatActivity {
 				}
 //----------------------------------parsingJSON----------------------------------------------------------------------------
 				String finalJSON = stringBuffer.toString();
+				json_string = finalJSON;
 //----------------------------------KREIRANJE OBJEKATA I NIZOVA------------------------------------------------------------
-				try {
-					//jsonObject = new JSONObject(json_string); //starts with [ not {
-					jsonArray = new JSONArray(finalJSON); //get the array
-					int count = 0;
-					String name;
-					String urlFromJ;
-					String parentId;
-					String idKategorije;
-					String jelikraj; //ako nije null onda neka otvori web wiew sa urlFromJ nastavkom
-
-					while (count < jsonArray.length()) {
-						JSONObject JO = jsonArray.getJSONObject(count);
-
-						idKategorije = JO.getString("id");
-						parentId = JO.getString("parent_id");
-						name = JO.getString("name");
-						urlFromJ = JO.getString("url");
-						jelikraj = JO.getString("transaction_type_id");
-
-						Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj);
-						categoryAdapter.add(categories);
-						count++;
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				//ispis
-				return finalJSON; // da bi ispisao podatke -> šalje se u onPostExecute
+				parseJson(finalJSON);
 //------------------------------------endParsingJson------------------------------------------------------------------------
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
@@ -143,7 +138,7 @@ public class SubCategory extends AppCompatActivity {
 				if (connection != null) {//provjera da je veza uspostavljena
 					connection.disconnect();
 				}
-				if (bufferedReader != null) {//ako je nula--> trebalo bi ga inicjalizirat -->nijw potrebno zatvarati
+				if (bufferedReader != null) {//ako je nula--> trebalo bi ga inicjalizirat -->nije potrebno zatvarati
 					try {
 						bufferedReader.close();
 					} catch (IOException e) {
@@ -159,5 +154,52 @@ public class SubCategory extends AppCompatActivity {
 			super.onPostExecute(result);
 			listView.setAdapter(categoryAdapter);
 		}
+	}
+	private String parseJson(String finalJSON){
+		try {
+			//jsonObject = new JSONObject(json_string); //starts with [ not {
+			jsonArray = new JSONArray(finalJSON); //get the array
+			int count = 0;
+			String name;
+			String urlFromJ;
+			String parentId;
+			String idKategorije;
+			String jelikraj; //ako nije null onda neka otvori web wiew sa urlFromJ nastavkom
+
+			while (count < jsonArray.length()) {
+				JSONObject JO = jsonArray.getJSONObject(count);
+
+				idKategorije = JO.getString("id");
+				parentId = JO.getString("parent_id");
+				name = JO.getString("name");
+				urlFromJ = JO.getString("url");
+				jelikraj = JO.getString("transaction_type_id");
+
+				Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj);
+				categoryAdapter.add(categories);
+				count++;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		//ispis
+		return finalJSON; // da bi ispisao podatke -> šalje se u onPostExecute
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+			// set back button in this activity to go back to main activity --> manifest
+			case R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

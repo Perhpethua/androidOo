@@ -2,10 +2,13 @@ package hr.oglasnik.perhpethua.oo;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -58,10 +61,6 @@ public class DisplayListView extends AppCompatActivity {
 				String idkat = categories.getId(); //dohvati id imena reda
 				String clickedrow = categories.getName();
 
-				//MainActivity mm = new MainActivity();
-				//mm.new BackgroundTask(idkat);
-
-
 				//new JSONTask().execute("http://slaviceva40.zapto.org/ajax/jsonCategories/"+idkat);
 
 				//listView.invalidateViews();
@@ -102,5 +101,29 @@ public class DisplayListView extends AppCompatActivity {
 			e.printStackTrace();
 		}
 		categoryAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()){
+
+			// set back button in this activity to go back to main activity --> manifest
+			case R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+
+			//case R.id.nekiid:
+			//startActivity(new Intent(this, noviActivity.class));
+			//return true;
+
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

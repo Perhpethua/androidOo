@@ -16,10 +16,19 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="action_registration">Registriraj se</string>
     <string name="search">Search</string>
     <string name="predaj_oglas_btn">Predaj oglas</string>
     <string name="kategorije_btn">Kategorije</string>
     <string name="registracija_btn">Registracija</string>
     <string name="prijava_btn">Prijava</string>
     <string name="forgot_pass_btn">Zaboravljena lozinka ili korisničko ime?</string>
+    <string name="string_user_name">Korisničko ime</string>
+    <string name="string_name">Ime</string>
+    <string name="string_surname">Prezime</string>
+    <string name="string_birthdate">Godina rođenja</string>
+    <string name="string_adress">Adresa</string>
+    <string name="string_city">Grad</string>
+    <string name="string_post_number">Poštanski broj</string>
+    <string name="string_phone_num">Broj tel/mob</string>
 </resources>

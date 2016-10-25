@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
 	public void parseJSON(View view){
 		urlEnd = "1";
 		if (json_string == null){
-			Toast.makeText(getApplicationContext(), "GetJson", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Provjeri Internet vezu.", Toast.LENGTH_SHORT).show();
 		}else{
-			if (urlEnd == "1") {
+			if (urlEnd.toString().equals("1")) {
 				Intent intent = new Intent(this, DisplayListView.class);
 				intent.putExtra("json_data", json_string);
 				startActivity(intent);

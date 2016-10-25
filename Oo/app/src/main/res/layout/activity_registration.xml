@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     android:id="@+id/activity_registration"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,124 +10,182 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hr.oglasnik.perhpethua.oo.registration"
-    android:background="@drawable/p4">
+    android:background="@drawable/p4"
+    android:orientation="vertical">
 
-    <EditText
+    <ProgressBar
+        android:id="@+id/registration_progress"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="textPersonName"
-        android:text="Grad"
-        android:ems="10"
-        android:id="@+id/editText12"
-        android:background="@color/light_background"
-        android:layout_above="@+id/editText13"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="23dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/editText11"
-        android:text="Poštanski broj"
-        android:background="@color/light_background"
-        android:layout_alignBottom="@+id/editText12"
-        android:layout_below="@+id/editText10"
-        android:layout_toEndOf="@+id/editText12"/>
+    <ScrollView
+        android:id="@+id/registration_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="textPersonName"
-        android:text="Prezime"
-        android:ems="10"
-        android:id="@+id/editText8"
-        android:background="@color/light_background"
-        android:layout_above="@+id/editText9"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="12dp"
-        android:layout_alignParentEnd="true"/>
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="textPersonName"
-        android:text="Ime"
-        android:ems="10"
-        android:id="@+id/editText7"
-        android:background="@color/light_background"
-        android:layout_above="@+id/editText8"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentEnd="true"
-        />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editText9"
-        android:text="Datum rođenja"
-        android:background="@color/light_background"
-        android:layout_above="@+id/editText10"
-        android:layout_alignParentStart="true"/>
+                <AutoCompleteTextView
+                    android:id="@+id/id_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/string_user_name"
+                    android:inputType="text"
+                    android:maxLines="1"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="phone"
-        android:ems="10"
-        android:id="@+id/editText13"
-        android:text="Broj tel/mob"
-        android:background="@color/light_background"
-        android:layout_marginBottom="18dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="textPersonName"
-        android:text="Adresa"
-        android:ems="10"
-        android:id="@+id/editText10"
-        android:background="@color/light_background"
-        android:layout_above="@+id/editText12"
-        android:layout_alignParentStart="true"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editText5"
-        android:background="@color/light_background"
-        android:hint="ime"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+                <AutoCompleteTextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/mail_holder"
-        android:background="@color/light_background"
-        android:hint="example@domain.com"
-        android:layout_below="@+id/editText5"
-        android:layout_alignParentStart="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_holder_height"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/editText6"
-        android:background="@color/light_background"
-        android:text="password"
-        android:layout_below="@+id/mail_holder"
-        android:layout_alignParentStart="true"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-</RelativeLayout>
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/id_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/string_name"
+                    android:inputType="text"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/id_user_surname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/string_surname"
+                    android:inputType="text"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/id_birthdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/string_birthdate"
+                    android:inputType="date"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/id_adress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/string_adress"
+                    android:inputType="text"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/id_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/string_city"
+                    android:inputType="text"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/id_post_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/string_post_number"
+                    android:inputType="number"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/id_phone_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/string_phone_num"
+                    android:inputType="phone"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/id_login_btn"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_registration"
+                android:textStyle="bold"
+                android:onClick="Registrate"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
