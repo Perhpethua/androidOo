@@ -13,7 +13,7 @@ public class registration extends AppCompatActivity {
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setIcon(R.mipmap.ic_launcher);
+		actionBar.setIcon(R.mipmap.full_white_logo_m);
 	}
 	public void Registrate(){
 

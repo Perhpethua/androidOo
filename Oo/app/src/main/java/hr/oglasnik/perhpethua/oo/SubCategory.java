@@ -46,7 +46,7 @@ public class SubCategory extends AppCompatActivity {
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setIcon(R.mipmap.full_logo);
+		actionBar.setIcon(R.mipmap.full_white_logo_m);
 
 		idBotuna = getIntent().getExtras().getString("url");
 		clicked = getIntent().getExtras().getString("clickedrow");

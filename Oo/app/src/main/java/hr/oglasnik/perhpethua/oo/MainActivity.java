@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setIcon(R.mipmap.full_logo);
+		actionBar.setIcon(R.mipmap.full_white_logo_m);
 
 		TextView t2 = (TextView) findViewById(R.id.forgot_password_link);
 		t2.setMovementMethod(LinkMovementMethod.getInstance());

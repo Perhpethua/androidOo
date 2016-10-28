@@ -69,7 +69,7 @@ public class login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
 //actionBar-------------------------------------------------
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.mipmap.full_logo);
+        actionBar.setIcon(R.mipmap.full_white_logo_m);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
