@@ -3,13 +3,4 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".DisplayListView">
-
-<!--       back strelica icon        -->
-   <!-- <item
-        android:id="@+id/id_action_back"
-        android:icon="@drawable/ic_chevron_left_black_24dp"
-        app:showAsAction="always"
-        android:title="Back"
-        />-->
-
 </menu>

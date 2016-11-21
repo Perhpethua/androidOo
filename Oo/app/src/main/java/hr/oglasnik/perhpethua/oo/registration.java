@@ -15,7 +15,4 @@ public class registration extends AppCompatActivity {
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setIcon(R.mipmap.full_white_logo_m);
 	}
-	public void Registrate(){
-
-	}
 }

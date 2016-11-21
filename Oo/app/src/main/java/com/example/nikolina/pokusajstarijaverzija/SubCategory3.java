@@ -1,0 +1,131 @@
+package com.example.nikolina.pokusajstarijaverzija;
+
+import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class SubCategory3 extends AppCompatActivity implements AsyncResponse{
+
+	JSONArray jsonArray;
+	CategoryAdapter categoryAdapter;
+	ListView listView;
+	String idBotuna;
+	String clicked;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_sub_category3);
+
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setIcon(R.mipmap.full_white_logo_m);
+
+		idBotuna = getIntent().getExtras().getString("url");
+		clicked = getIntent().getExtras().getString("clickedrow");
+
+		final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
+		final TextView t3 = (TextView) findViewById(R.id.id_tv);
+
+		t3.setText("> " + clicked);
+		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
+
+		noviJsonTask asyncTask = new noviJsonTask();
+		asyncTask.delegate = this;
+		asyncTask.execute(fullurl);
+
+		listView = (ListView) findViewById(R.id.id_listview_sub3);
+		categoryAdapter = new CategoryAdapter(this, R.layout.row_layout);
+		listView.setAdapter(categoryAdapter);
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//Toast.makeText(SubCategory.this, "List item clicked at " + position, Toast.LENGTH_SHORT).show();
+				Categories categories = (Categories) categoryAdapter.getItem(position);
+				String idkat = categories.getId();
+				String clickedrow = categories.getName();
+				String isEnd = categories.getCatEnd().toString();
+
+				if ("null".equals(isEnd)) {
+					Categories kat = (Categories) categoryAdapter.getItem(position);
+					String ides = categories.getId();
+					String imereda = categories.getName();
+					String urls = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idkat;
+					noviJsonTask asyncTask = new noviJsonTask();
+					asyncTask.execute(urls);
+					listView = (ListView) findViewById(R.id.id_listview_sub3);
+					categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
+					t3.setText("> " + clickedrow);
+				}else { // nema više grananja
+					Intent in = new Intent(SubCategory3.this, OpenPage.class);
+					in.putExtra("kraj", isEnd);
+					startActivity(in);
+				}
+//--------------------------------------------------------------------------------------------------------------------------
+				//	btnnavigate.setText(clicked);
+			}
+		});
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+			// set back button in this activity to go back to main activity --> manifest
+			case R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void processFinish(String output) {
+		try {
+			//jsonObject = new JSONObject(json_string); //starts with [ not {
+			jsonArray = new JSONArray(output);
+			int count = 0;
+			String name;
+			String urlFromJ;
+			String parentId;
+			String idKategorije;
+			String jelikraj; //ako nije null onda neka otvori web wiew sa urlFromJ nastavkom
+
+			while (count < jsonArray.length()) {
+				JSONObject JO = jsonArray.getJSONObject(count);
+
+				idKategorije = JO.getString("id");
+				parentId = JO.getString("parent_id");
+				name = JO.getString("name");
+				urlFromJ = JO.getString("url");
+				jelikraj = JO.getString("transaction_type_id");
+
+				Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj);
+				categoryAdapter.add(categories);
+				count++;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+}

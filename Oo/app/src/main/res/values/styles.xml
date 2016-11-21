@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorButtonNormal">@color/colorButtonNormal</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
     </style>
-<!--Theme.AppCompat.Light.DarkActionBar-->
+
 </resources>

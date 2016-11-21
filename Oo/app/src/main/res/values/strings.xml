@@ -30,5 +30,5 @@
     <string name="string_adress">Adresa</string>
     <string name="string_city">Grad</string>
     <string name="string_post_number">Poštanski broj</string>
-    <string name="string_phone_num">Broj tel/mob</string>
+    <string name="string_phone_num">Broj tel ili mob</string>
 </resources>
