@@ -1,12 +1,17 @@
 package com.example.nikolina.pokusajstarijaverzija;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.method.LinkMovementMethod;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static String json_string;
     String urlEnd;
+    SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.mipmap.full_white_logo_m);
+        actionBar.setTitle("");
 
         TextView t2 = (TextView) findViewById(R.id.forgot_password_link);
         t2.setMovementMethod(LinkMovementMethod.getInstance());
@@ -141,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(loginActivity);
     }
 
+    /* // called when searchView is in aplication "BODY" not actionBar
     public void Searchme(View view) {
         EditText searchInput = (EditText)findViewById(R.id.id_search_input);
         String searchString = searchInput.getText().toString(); //URL nastavak
@@ -148,6 +157,39 @@ public class MainActivity extends AppCompatActivity {
         Intent searchActivity = new Intent(this, Search.class);
         searchActivity.putExtra("url",searchString);
         startActivity(searchActivity);
+    }*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
+        activateSearchView(menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void activateSearchView(Menu menu) {
+        final MenuItem item = menu.findItem(R.id.id_menuSearch);
+        //SearchView sv = (SearchView) menu.findItem(R.id.id_menuSearch).getActionView(); //other way to getActtionView exmpl2 below
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener(){
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        item.collapseActionView();
+                        Intent searchActivity = new Intent(MainActivity.this, Search.class);
+                        searchActivity.putExtra("url",query);
+                        startActivity(searchActivity);
+                        return false;
+                    }
+                }
+        );
     }
 }
 

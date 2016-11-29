@@ -1,10 +1,13 @@
 package com.example.nikolina.pokusajstarijaverzija;
 
 import android.graphics.Bitmap;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -23,7 +26,7 @@ public class Search extends AppCompatActivity {
         actionBar.setIcon(R.mipmap.full_white_logo_m);
 
         //fetch string value
-        String urlsufix = getIntent().getStringExtra("url");
+        String urlsufix = getIntent().getStringExtra("url"); // url nastavak
 
         webViewSearch = (WebView) findViewById(R.id.id_webview_search);
         WebSettings webSettings = webViewSearch.getSettings();
@@ -33,6 +36,7 @@ public class Search extends AppCompatActivity {
         webViewSearch.setWebViewClient(new myWebClient1());
 //--------------------------------------------------
         webViewSearch.getSettings().setJavaScriptEnabled(true);
+        // kada bude promjena urlFull se mijenja na fullUrl = "http://www.oglasnik.hr/mob/slug/search?=" + urlsufix + "&category_id=" + idcat;
         String urlFull = "http://www.oglasnik.hr/search?q=" + urlsufix + "#classifieds";
         webViewSearch.loadUrl(urlFull);
 
@@ -71,6 +75,26 @@ public class Search extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+    // ---------------------------------- back arrow in menu ---------------------------------------------
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            // set back button in this activity to go back to main activity --> manifest
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

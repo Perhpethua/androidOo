@@ -3,7 +3,7 @@
     <string name="title_activity_login">Prijavi se</string>
     <string name="title_activity_registration">Registracija</string>
     <string name="title_activity_category">Kategorije</string>
-    <string name="title_activity_addfile">Dodaj oglas</string>
+    <string name="title_activity_addfile">Predaj oglas</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Lozinka</string>
@@ -19,7 +19,7 @@
     <string name="action_registration">Registriraj se</string>
     <string name="search">Search</string>
     <string name="predaj_oglas_btn">Predaj oglas</string>
-    <string name="kategorije_btn">Kategorije</string>
+    <string name="kategorije_btn">Pretraga oglasa</string>
     <string name="registracija_btn">Registracija</string>
     <string name="prijava_btn">Prijava</string>
     <string name="forgot_pass_btn">Zaboravljena lozinka ili korisničko ime?</string>

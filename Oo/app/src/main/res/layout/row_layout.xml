@@ -4,11 +4,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="@dimen/next_button_w_h"
+        android:layout_height="@dimen/next_button_w_h"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="false"
+        android:id="@+id/id_icon"
+        android:src="@mipmap/logo"
+        android:background="@null"
+        android:layout_marginTop="13dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:id="@+id/tx_name"
-        android:layout_alignParentLeft="true"
         android:gravity="start"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
@@ -17,7 +26,7 @@
         android:textAppearance="?android:textAppearanceLarge"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
-        />
+        android:layout_toEndOf="@+id/id_icon" />
     <!--android:background="@color/colorAccent"-->
     <ImageView
         android:layout_width="@dimen/next_button_w_h"

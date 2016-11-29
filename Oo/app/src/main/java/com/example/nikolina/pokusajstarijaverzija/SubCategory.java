@@ -1,25 +1,26 @@
 package com.example.nikolina.pokusajstarijaverzija;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class SubCategory extends AppCompatActivity {
 		idBotuna = getIntent().getExtras().getString("url");
 		clicked = getIntent().getExtras().getString("clickedrow");
 
-		final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
+	//	final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
 		final TextView t3 = (TextView) findViewById(R.id.id_tv);
 
 		/*btnnavigate.setOnClickListener(new AdapterView.OnClickListener(){
@@ -68,7 +69,7 @@ public class SubCategory extends AppCompatActivity {
 				categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
 			}
 		});*/
-
+		t3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textview_animation));
 		t3.setText("> " + clicked);
 		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
 		new JSONTask().execute(fullurl);
@@ -84,13 +85,14 @@ public class SubCategory extends AppCompatActivity {
 				//Toast.makeText(SubCategory.this, "List item clicked at " + position, Toast.LENGTH_SHORT).show();
 				Categories categories = (Categories) categoryAdapter.getItem(position);
 				String idkat = categories.getId();
-				String clickedrow = categories.getName();
+				String clickedrow2 = categories.getName();
 				String isEnd = categories.getCatEnd().toString();
 
 				if ("null".equals(isEnd)) {
 					Intent intent = new Intent(SubCategory.this, SubCategory2.class);
 					intent.putExtra("url", idkat); //id kategorije za url
-					intent.putExtra("clickedrow", clickedrow); //ime kliknutog reda stavlja se u btn
+                    intent.putExtra("clicked", clicked); // prije klinuti
+                    intent.putExtra("clickedrow2", clickedrow2); // zadnji kliknuti - ime kliknutog reda stavlja se u btn
 					startActivity(intent);
 				}else {
 					Intent in = new Intent(SubCategory.this, OpenPage.class);
@@ -166,6 +168,8 @@ public class JSONTask extends AsyncTask<String, String, String>{
 			String parentId;
 			String idKategorije;
 			String jelikraj; //ako nije null onda neka otvori web wiew sa urlFromJ nastavkom
+            String urlsufix;
+			String json;
 
 			while (count < jsonArray.length()) {
 				JSONObject JO = jsonArray.getJSONObject(count);
@@ -175,8 +179,10 @@ public class JSONTask extends AsyncTask<String, String, String>{
 				name = JO.getString("name");
 				urlFromJ = JO.getString("url");
 				jelikraj = JO.getString("transaction_type_id");
+                urlsufix = JO.getString("url");
+				json = JO.getString("json");
 
-				Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj);
+				Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj, urlsufix, json);
 				categoryAdapter.add(categories);
 				count++;
 			}
@@ -186,21 +192,48 @@ public class JSONTask extends AsyncTask<String, String, String>{
 		//ispis
 		return finalJSON; // da bi ispisao podatke -> šalje se u onPostExecute
 	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
-		return super.onCreateOptionsMenu(menu);
-	}
+    // ---------------------------------- back arrow in menu ---------------------------------------------
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
+		activateSearchView(menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-			// set back button in this activity to go back to main activity --> manifest
-			case R.id.home:
-				NavUtils.navigateUpFromSameTask(this);
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+
+            // set back button in this activity to go back to main activity --> manifest
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+	private void activateSearchView(Menu menu) {
+		MenuItem item = menu.findItem(R.id.id_menuSearch);
+		//SearchView sv = (SearchView) menu.findItem(R.id.id_menuSearch).getActionView(); //other way to getActtionView exmpl2 below
+		SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+		final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		searchView.setOnQueryTextListener(
+				new SearchView.OnQueryTextListener(){
+					@Override
+					public boolean onQueryTextChange(String newText) {
+						return false;
+					}
+
+					@Override
+					public boolean onQueryTextSubmit(String query) {
+						Intent searchActivity = new Intent(SubCategory.this, Search.class);
+						searchActivity.putExtra("url",query);
+						startActivity(searchActivity);
+						return false;
+					}
+				}
+		);
 	}
 }

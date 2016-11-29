@@ -10,6 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".SubCategory">
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,19 +21,19 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/height_tv_subcategories"
         android:text="Kategorije"
         android:id="@+id/id_tv"
         android:textStyle="italic"
-        android:textSize="20dp"
-        android:layout_alignBottom="@+id/id_btn_navigate"
+        android:textSize="@dimen/font_size_tv_subcategories"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/id_btn_navigate"
         android:layout_alignParentTop="true"
-        android:background="@color/colorAccent"
-        android:textColor="@color/btn_text_color"/>
-
-    <Button
+        android:background="@drawable/rounded_corners"
+        android:textColor="@color/btn_text_color"
+        android:layout_alignParentStart="true" />
+<!--android:layout_alignBottom="@+id/id_btn_navigate"
+        android:layout_toEndOf="@+id/id_btn_navigate"-->
+    <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:id="@+id/id_btn_navigate"
@@ -44,5 +45,5 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"/>-->
 </RelativeLayout>

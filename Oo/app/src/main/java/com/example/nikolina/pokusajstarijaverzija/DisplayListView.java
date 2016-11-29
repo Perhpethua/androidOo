@@ -1,31 +1,25 @@
 package com.example.nikolina.pokusajstarijaverzija;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class DisplayListView extends AppCompatActivity {
 
@@ -33,7 +27,6 @@ public class DisplayListView extends AppCompatActivity {
     JSONArray jsonArray;
     CategoryAdapter categoryAdapter;
     ListView listView;
-    String prosljedeni;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +38,7 @@ public class DisplayListView extends AppCompatActivity {
         actionBar.setIcon(R.mipmap.full_white_logo_m);
 
         TextView t3 = (TextView) findViewById(R.id.id_tv);
+        ImageView icons = (ImageView) findViewById(R.id.id_icon);
 
         niz = getIntent().getExtras().getString("json_data");
 
@@ -55,7 +49,7 @@ public class DisplayListView extends AppCompatActivity {
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Categories categories = (Categories) categoryAdapter.getItem(position);
                 String idkat = categories.getId(); //dohvati id imena reda
@@ -63,16 +57,14 @@ public class DisplayListView extends AppCompatActivity {
 
                 //new JSONTask().execute("http://slaviceva40.zapto.org/ajax/jsonCategories/"+idkat);
 
-                //listView.invalidateViews();
                 Intent intent = new Intent(DisplayListView.this, SubCategory.class);
-                intent.putExtra("url",idkat);
+                intent.putExtra("url", idkat);
                 intent.putExtra("clickedrow", clickedrow);
                 startActivity(intent);
             }
         });
 
-        //json_string = getIntent().getExtras().getString("json_data");
-        //inicjalizacija jsonObject
+        String json = null;
         try {
             //jsonObject = new JSONObject(json_string); //starts with [ not {
             jsonArray = new JSONArray(niz); //get the array
@@ -82,6 +74,7 @@ public class DisplayListView extends AppCompatActivity {
             String parentId;
             String idKategorije;
             String jelikraj; //ako nije null onda neka otvori web wiew sa urlFromJ nastavkom
+            String urlsufix;
 
             while (count < jsonArray.length()) {
                 JSONObject JO = jsonArray.getJSONObject(count);
@@ -91,20 +84,29 @@ public class DisplayListView extends AppCompatActivity {
                 name = JO.getString("name");
                 urlFromJ = JO.getString("url");
                 jelikraj = JO.getString("transaction_type_id");
+                urlsufix = JO.getString("url");
+                json = JO.getString("json"); // bit će isti za odabranu kategoriju, tj null za podkategoriju
 
-                Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj);
+                Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj, urlsufix, json);
                 categoryAdapter.add(categories);
                 count++;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        String[] separated = json.split(",");
+
+       // Toast.makeText(getApplicationContext(), separated[1], Toast.LENGTH_LONG).show();
         categoryAdapter.notifyDataSetChanged();
     }
 
+    // ---------------------------------- back arrow in menu ---------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+
         getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
+        activateSearchView(menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -118,12 +120,31 @@ public class DisplayListView extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
-            //case R.id.nekiid:
-            //startActivity(new Intent(this, noviActivity.class));
-            //return true;
-
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void activateSearchView(Menu menu) {
+        MenuItem item = menu.findItem(R.id.id_menuSearch);
+        //SearchView sv = (SearchView) menu.findItem(R.id.id_menuSearch).getActionView(); //other way to getActtionView exmpl2 below
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener(){
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        Intent searchActivity = new Intent(DisplayListView.this, Search.class);
+                        searchActivity.putExtra("url",query);
+                        startActivity(searchActivity);
+                        return false;
+                    }
+                }
+        );
     }
 }
 

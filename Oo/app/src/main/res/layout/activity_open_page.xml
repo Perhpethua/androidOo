@@ -12,8 +12,45 @@
     tools:context=".OpenPage">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_tv_subcategories"
+        android:text="Kategorije"
+        android:id="@+id/id_tv"
+        android:textStyle="italic"
+        android:textSize="@dimen/font_size_tv_subcategories"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/rounded_corners"
+        android:textColor="@color/btn_text_color"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="@dimen/height_tv_subcategories"
+        android:text="Podkategorije"
+        android:id="@+id/id_tv2"
+        android:textStyle="italic"
+        android:textSize="@dimen/font_size_tv_subcategories"
+        android:background="@drawable/rounded_corners_2"
+        android:textColor="@color/btn_text_color"
+        android:layout_below="@+id/id_tv"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="@dimen/height_tv_subcategories"
+        android:text="Podpodkategorije"
+        android:id="@+id/id_tv3"
+        android:textStyle="italic"
+        android:textSize="@dimen/font_size_tv_subcategories"
+        android:background="@drawable/rounded_corners_3"
+        android:textColor="@color/btn_text_color"
+        android:layout_below="@+id/id_tv2"
+        android:layout_alignParentEnd="true" />
+    <WebView
+        android:id="@+id/id_webview_openPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/id_prikazi"
-        android:text="Prosljeđeni"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/id_tv3"/>
 </RelativeLayout>

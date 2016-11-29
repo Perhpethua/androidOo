@@ -11,4 +11,8 @@
     <dimen name="small_padding_bottom">10dp</dimen>
     <dimen name="text_holder_height">40dp</dimen>
     <dimen name="next_button_w_h">25dp</dimen>
+    <dimen name="height_tv_subcategories">20dp</dimen>
+    <dimen name="font_size_tv_subcategories">15sp</dimen>
+    <dimen name="margin_top_first_btn">30dp</dimen>
+    <dimen name="margin_top_second_btn">10dp</dimen>
 </resources>
