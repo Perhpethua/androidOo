@@ -1,10 +1,14 @@
 package com.example.nikolina.pokusajstarijaverzija;
+/*
+*       TODO: Search based on query (users input) and category - uses webViewClient
+*             if category not defined idcat = "1", shows same results as idcat = ""
+*/
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +16,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class Search extends AppCompatActivity {
     WebView webViewSearch;
@@ -26,21 +31,28 @@ public class Search extends AppCompatActivity {
         actionBar.setIcon(R.mipmap.full_white_logo_m);
 
         //fetch string value
-        String urlsufix = getIntent().getStringExtra("url"); // url nastavak
+        //String urlsufix = getIntent().getStringExtra("url"); // url nastavak - upisao korisnik - stara tražlica
+        String query = getIntent().getStringExtra("query"); // upisani parametar1 trazilice
+        String idcat = getIntent().getStringExtra("idcat");
+
+        Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show(); //22
 
         webViewSearch = (WebView) findViewById(R.id.id_webview_search);
         WebSettings webSettings = webViewSearch.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
-//force links to open in webview only---------------
+//--------------------------------------------------------------------------------------------------
+//---------------------------force links to open in webview only------------------------------------
+//--------------------------------------------------------------------------------------------------
         webViewSearch.setWebViewClient(new myWebClient1());
-//--------------------------------------------------
+//--------------------------------------------------------------------------------------------------
         webViewSearch.getSettings().setJavaScriptEnabled(true);
-        // kada bude promjena urlFull se mijenja na fullUrl = "http://www.oglasnik.hr/mob/slug/search?=" + urlsufix + "&category_id=" + idcat;
-        String urlFull = "http://www.oglasnik.hr/search?q=" + urlsufix + "#classifieds";
+        // kada bude promjena urlFull se mijenja na fullUrl = "http://slaviceva40.zapto.org/mob/searchAd/" + param1 + "/" + idcat;
+       // String urlFull = "http://www.oglasnik.hr/search?q=" + urlsufix + "#classifieds";
+        String urlFull = "http://slaviceva40.zapto.org/mob?q=" + query + "&category_id=" + idcat;
         webViewSearch.loadUrl(urlFull);
 
-        //improve WebView performance
+//------------------------------improve WebView performance-----------------------------------------
+//--------------------------------------------------------------------------------------------------
         webViewSearch.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
         webViewSearch.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webViewSearch.getSettings().setAppCacheEnabled(true);
@@ -52,6 +64,9 @@ public class Search extends AppCompatActivity {
         webSettings.setSaveFormData(true);
         webSettings.setEnableSmoothTransition(true);
     }
+//--------------------------------------------------------------------------------------------------
+//-------------------------------- web client ------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
     public class myWebClient1 extends WebViewClient {
 
         @Override
@@ -76,7 +91,9 @@ public class Search extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-    // ---------------------------------- back arrow in menu ---------------------------------------------
+//--------------------------------------------------------------------------------------------------
+// ---------------------------------- back arrow in menu -------------------------------------------
+//--------------------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present

@@ -38,7 +38,7 @@ public class SubCategory3 extends AppCompatActivity implements AsyncResponse{
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setIcon(R.mipmap.full_white_logo_m);
 
-		idBotuna = getIntent().getExtras().getString("url");
+		idBotuna = getIntent().getExtras().getString("idcat");
 		clicked = getIntent().getExtras().getString("clicked"); // predpredzadnji
 		clicked2 = getIntent().getExtras().getString("clicked2"); // predzadnji
         clicked3 = getIntent().getExtras().getString("clickedrow3"); // zadnji
@@ -51,9 +51,9 @@ public class SubCategory3 extends AppCompatActivity implements AsyncResponse{
         t3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textview_animation));
         t4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textview_animation));
         t5.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textview_animation));
-		t3.setText("> " + clicked);
-		t4.setText("> " + clicked2);
-        t5.setText("> " + clicked3);
+		t3.setText(" > " + clicked);
+		t4.setText(" > " + clicked2);
+        t5.setText(" > " + clicked3);
 
 		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
 
@@ -82,13 +82,13 @@ public class SubCategory3 extends AppCompatActivity implements AsyncResponse{
 					asyncTask.execute(urls);
 					listView = (ListView) findViewById(R.id.id_listview_sub3);
 					categoryAdapter = new CategoryAdapter(getBaseContext(), R.layout.row_layout);
-					t5.setText("> " + clickedrow);
+					t5.setText(" > " + clickedrow);
 				}else { // nema više grananja
 					Intent in = new Intent(SubCategory3.this, OpenPage.class);
 					in.putExtra("1", clicked);
 					in.putExtra("2", clicked2);
 					in.putExtra("3", clicked3);
-					in.putExtra("kraj", isEnd);
+					in.putExtra("idcat", idkat); //id kategorije za url
                     in.putExtra("urlsufix", urlnastavak);
 					startActivity(in);
 				}
@@ -167,7 +167,8 @@ public class SubCategory3 extends AppCompatActivity implements AsyncResponse{
 					@Override
 					public boolean onQueryTextSubmit(String query) {
 						Intent searchActivity = new Intent(SubCategory3.this, Search.class);
-						searchActivity.putExtra("url",query);
+						searchActivity.putExtra("query",query);
+						searchActivity.putExtra("idcat", idBotuna);
 						startActivity(searchActivity);
 						return false;
 					}

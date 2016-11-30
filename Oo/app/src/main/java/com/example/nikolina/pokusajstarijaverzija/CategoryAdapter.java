@@ -49,6 +49,7 @@ public class CategoryAdapter extends ArrayAdapter {
 			row = layoutInflater.inflate(R.layout.row_layout, parent, false);
 			categoryHolder = new CategoryHolder();
 			categoryHolder.tx_name = (TextView) row.findViewById(R.id.tx_name);
+			//categoryHolder.iv_jsonicon = (ImageView) row.findViewById(R.id.id_icon);
 			row.setTag(categoryHolder);
 
 		}else {
@@ -65,5 +66,6 @@ public class CategoryAdapter extends ArrayAdapter {
 
 	static class CategoryHolder{
 		TextView tx_name;
+		//ImageView iv_jsonicon;
 	}
 }

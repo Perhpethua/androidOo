@@ -1,10 +1,15 @@
 package com.example.nikolina.pokusajstarijaverzija;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +22,7 @@ import android.widget.TextView;
 
 public class OpenPage extends AppCompatActivity {
 
-	String jelikraj, urlsufix;
+	String idcat, urlsufix;
 	WebView webViewOpenPage;
 	String one, two, three;
 
@@ -30,7 +35,7 @@ public class OpenPage extends AppCompatActivity {
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setIcon(R.mipmap.full_white_logo_m);
 
-		jelikraj = getIntent().getExtras().getString("kraj");
+		idcat = getIntent().getExtras().getString("idcat");
 		urlsufix = getIntent().getStringExtra("urlsufix"); // url nastavak
 		//---------------- nav location ---------------------------------------------------
 		one = getIntent().getExtras().getString("1");
@@ -110,6 +115,7 @@ public class OpenPage extends AppCompatActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present
+		activateSearchView(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -124,5 +130,29 @@ public class OpenPage extends AppCompatActivity {
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	private void activateSearchView(Menu menu) {
+		MenuItem item = menu.findItem(R.id.id_menuSearch);
+		//SearchView sv = (SearchView) menu.findItem(R.id.id_menuSearch).getActionView(); //other way to getActtionView exmpl2 below
+		SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+		final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		searchView.setOnQueryTextListener(
+				new SearchView.OnQueryTextListener(){
+					@Override
+					public boolean onQueryTextChange(String newText) {
+						return false;
+					}
+
+					@Override
+					public boolean onQueryTextSubmit(String query) {
+						Intent searchActivity = new Intent(OpenPage.this, Search.class);
+						searchActivity.putExtra("query",query);
+						searchActivity.putExtra("idcat", idcat);
+						startActivity(searchActivity);
+						return false;
+					}
+				}
+		);
 	}
 }

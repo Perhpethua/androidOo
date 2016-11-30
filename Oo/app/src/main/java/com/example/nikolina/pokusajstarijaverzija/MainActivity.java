@@ -174,21 +174,23 @@ public class MainActivity extends AppCompatActivity {
 
         final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setOnQueryTextListener(
-                new SearchView.OnQueryTextListener(){
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        item.collapseActionView();
-                        Intent searchActivity = new Intent(MainActivity.this, Search.class);
-                        searchActivity.putExtra("url",query);
-                        startActivity(searchActivity);
-                        return false;
-                    }
+            new SearchView.OnQueryTextListener(){
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
                 }
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    String idkat = "1";
+                    item.collapseActionView();
+                    Intent searchActivity = new Intent(MainActivity.this, Search.class);
+                    searchActivity.putExtra("query",query);
+                    searchActivity.putExtra("idcat", idkat);
+                    startActivity(searchActivity);
+                    return false;
+                }
+            }
         );
     }
 }

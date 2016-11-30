@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,18 +40,20 @@ public class SubCategory2 extends AppCompatActivity implements AsyncResponse{
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setIcon(R.mipmap.full_white_logo_m);
 
-		idBotuna = getIntent().getExtras().getString("url");
+		idBotuna = getIntent().getExtras().getString("idcat");
 		clicked = getIntent().getExtras().getString("clicked");
 		clicked2 = getIntent().getExtras().getString("clickedrow2"); // zadnji
+
+		Toast.makeText(getApplicationContext(), idBotuna, Toast.LENGTH_SHORT).show();
 
 		//final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
 		final TextView t3 = (TextView) findViewById(R.id.id_tv);
 		final TextView t4 = (TextView) findViewById(R.id.id_tv2); //podkategorije
 
 		t3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textview_animation));
-		t3.setText("> " + clicked);
+		t3.setText(" > " + clicked);
 		t4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textview_animation));
-		t4.setText("> " + clicked2);
+		t4.setText(" > " + clicked2);
 
 		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
 
@@ -77,7 +80,7 @@ public class SubCategory2 extends AppCompatActivity implements AsyncResponse{
 
 				if ("null".equals(isEnd)) { // nije kraj ima jos lista
 					Intent intent = new Intent(SubCategory2.this, SubCategory3.class);
-					intent.putExtra("url", idkat); //id kategorije za url
+					intent.putExtra("idcat", idkat); //id kategorije za url
 					intent.putExtra("clicked", clicked); // prije klinuti
 					intent.putExtra("clicked2", clicked2); // prije klinuti
 					intent.putExtra("clickedrow3", clickedrow3); // zadnji kliknuti - ime kliknutog reda stavlja se u btn
@@ -87,7 +90,7 @@ public class SubCategory2 extends AppCompatActivity implements AsyncResponse{
 					in.putExtra("1", clicked);
 					in.putExtra("2", clicked2);
 					in.putExtra("3", clickedrow3);
-					in.putExtra("kraj", isEnd);
+					in.putExtra("idcat", idkat);
 					in.putExtra("urlsufix", urlsufix);
 					startActivity(in);
 				}
@@ -169,7 +172,8 @@ public class SubCategory2 extends AppCompatActivity implements AsyncResponse{
 					@Override
 					public boolean onQueryTextSubmit(String query) {
 						Intent searchActivity = new Intent(SubCategory2.this, Search.class);
-						searchActivity.putExtra("url",query);
+						searchActivity.putExtra("query",query);
+						searchActivity.putExtra("idcat", idBotuna);
 						startActivity(searchActivity);
 						return false;
 					}

@@ -1,4 +1,7 @@
 package com.example.nikolina.pokusajstarijaverzija;
+/*
+        TODO: First ListView categories display, parsing JSON
+ */
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -27,6 +30,7 @@ public class DisplayListView extends AppCompatActivity {
     JSONArray jsonArray;
     CategoryAdapter categoryAdapter;
     ListView listView;
+    String jsonstring;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +48,10 @@ public class DisplayListView extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listview);
         categoryAdapter = new CategoryAdapter(this, R.layout.row_layout);
+
         listView.setAdapter(categoryAdapter);
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -54,12 +59,13 @@ public class DisplayListView extends AppCompatActivity {
                 Categories categories = (Categories) categoryAdapter.getItem(position);
                 String idkat = categories.getId(); //dohvati id imena reda
                 String clickedrow = categories.getName();
-
+                //String jsonicon = categories.getJsonicon();
                 //new JSONTask().execute("http://slaviceva40.zapto.org/ajax/jsonCategories/"+idkat);
 
                 Intent intent = new Intent(DisplayListView.this, SubCategory.class);
-                intent.putExtra("url", idkat);
+                intent.putExtra("idkat", idkat);
                 intent.putExtra("clickedrow", clickedrow);
+                //intent.putExtra("iconposition", jsonicon); // all rows will have this icon in SubCategory
                 startActivity(intent);
             }
         });
@@ -94,13 +100,22 @@ public class DisplayListView extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+//--------------------------------------------------------------------------------------------------
+//------------------------------- parse json string in json file -----------------------------------
+//--------------------------------------------------------------------------------------------------
+       /*
         String[] separated = json.split(",");
-
-       // Toast.makeText(getApplicationContext(), separated[1], Toast.LENGTH_LONG).show();
+        Categories categories = (Categories) categoryAdapter.getItem(0);
+        jsonstring = categories.getJsonicon();
+        Toast.makeText(getApplicationContext(),jsonstring, Toast.LENGTH_LONG).show(); // za dobivanje ikone na 6 poziciji u JSON file
+        */
+//--------------------------------------------------------------------------------------------------
         categoryAdapter.notifyDataSetChanged();
     }
 
-    // ---------------------------------- back arrow in menu ---------------------------------------------
+//--------------------------------------------------------------------------------------------------
+// ---------------------------------- back arrow in ActionMenu -------------------------------------
+//--------------------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -123,6 +138,9 @@ public class DisplayListView extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+//--------------------------------------------------------------------------------------------------
+//---------------------------------------- SEARCH --------------------------------------------------
+//--------------------------------------------------------------------------------------------------
     private void activateSearchView(Menu menu) {
         MenuItem item = menu.findItem(R.id.id_menuSearch);
         //SearchView sv = (SearchView) menu.findItem(R.id.id_menuSearch).getActionView(); //other way to getActtionView exmpl2 below
@@ -138,8 +156,10 @@ public class DisplayListView extends AppCompatActivity {
 
                     @Override
                     public boolean onQueryTextSubmit(String query) {
+                        String idkat = "1";
                         Intent searchActivity = new Intent(DisplayListView.this, Search.class);
-                        searchActivity.putExtra("url",query);
+                        searchActivity.putExtra("query",query);
+                        searchActivity.putExtra("idcat", idkat);
                         startActivity(searchActivity);
                         return false;
                     }
@@ -147,4 +167,3 @@ public class DisplayListView extends AppCompatActivity {
         );
     }
 }
-

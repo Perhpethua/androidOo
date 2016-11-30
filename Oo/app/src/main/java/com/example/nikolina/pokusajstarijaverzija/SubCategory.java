@@ -1,7 +1,5 @@
 package com.example.nikolina.pokusajstarijaverzija;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,7 +47,7 @@ public class SubCategory extends AppCompatActivity {
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setIcon(R.mipmap.full_white_logo_m);
 
-		idBotuna = getIntent().getExtras().getString("url");
+		idBotuna = getIntent().getExtras().getString("idkat");
 		clicked = getIntent().getExtras().getString("clickedrow");
 
 	//	final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
@@ -70,7 +68,7 @@ public class SubCategory extends AppCompatActivity {
 			}
 		});*/
 		t3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textview_animation));
-		t3.setText("> " + clicked);
+		t3.setText(" > " + clicked);
 		String fullurl = "http://slaviceva40.zapto.org/ajax/jsonCategories/" + idBotuna;
 		new JSONTask().execute(fullurl);
 
@@ -86,17 +84,19 @@ public class SubCategory extends AppCompatActivity {
 				Categories categories = (Categories) categoryAdapter.getItem(position);
 				String idkat = categories.getId();
 				String clickedrow2 = categories.getName();
-				String isEnd = categories.getCatEnd().toString();
+				String isEnd = categories.getCatEnd();
+				String urlsufix = categories.getUrlsufix();
 
 				if ("null".equals(isEnd)) {
 					Intent intent = new Intent(SubCategory.this, SubCategory2.class);
-					intent.putExtra("url", idkat); //id kategorije za url
+					intent.putExtra("idcat", idkat); //id kategorije za url
                     intent.putExtra("clicked", clicked); // prije klinuti
                     intent.putExtra("clickedrow2", clickedrow2); // zadnji kliknuti - ime kliknutog reda stavlja se u btn
 					startActivity(intent);
 				}else {
 					Intent in = new Intent(SubCategory.this, OpenPage.class);
-					in.putExtra("kraj", isEnd);
+					in.putExtra("idcat", idkat);
+					in.putExtra("urlsufix", urlsufix);
 					startActivity(in);
 				}
 //--------------------------------------------------------------------------------------------------------------------------
@@ -218,22 +218,24 @@ public class JSONTask extends AsyncTask<String, String, String>{
 		//SearchView sv = (SearchView) menu.findItem(R.id.id_menuSearch).getActionView(); //other way to getActtionView exmpl2 below
 		SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
 
-		final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		searchView.setOnQueryTextListener(
-				new SearchView.OnQueryTextListener(){
-					@Override
-					public boolean onQueryTextChange(String newText) {
-						return false;
-					}
+		//final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-					@Override
-					public boolean onQueryTextSubmit(String query) {
-						Intent searchActivity = new Intent(SubCategory.this, Search.class);
-						searchActivity.putExtra("url",query);
-						startActivity(searchActivity);
-						return false;
-					}
-				}
+		searchView.setOnQueryTextListener(
+            new SearchView.OnQueryTextListener(){
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Intent searchActivity = new Intent(SubCategory.this, Search.class);
+                    searchActivity.putExtra("query",query);
+                    searchActivity.putExtra("idcat", idBotuna);
+                    startActivity(searchActivity);
+                    return false;
+                }
+            }
 		);
 	}
 }
