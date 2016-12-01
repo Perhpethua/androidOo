@@ -28,9 +28,11 @@ public class DisplayListView extends AppCompatActivity {
 
     String niz;
     JSONArray jsonArray;
+    JSONObject jsonObject;
     CategoryAdapter categoryAdapter;
     ListView listView;
-    String jsonstring;
+    ImageView icons;
+    public static String jsonicon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +44,13 @@ public class DisplayListView extends AppCompatActivity {
         actionBar.setIcon(R.mipmap.full_white_logo_m);
 
         TextView t3 = (TextView) findViewById(R.id.id_tv);
-        ImageView icons = (ImageView) findViewById(R.id.id_icon);
+        icons = (ImageView) findViewById(R.id.id_icon);
 
+        //"http://image.flaticon.com/teams/new/1-freepik.jpg");
         niz = getIntent().getExtras().getString("json_data");
 
         listView = (ListView) findViewById(R.id.listview);
         categoryAdapter = new CategoryAdapter(this, R.layout.row_layout);
-
         listView.setAdapter(categoryAdapter);
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -59,13 +61,13 @@ public class DisplayListView extends AppCompatActivity {
                 Categories categories = (Categories) categoryAdapter.getItem(position);
                 String idkat = categories.getId(); //dohvati id imena reda
                 String clickedrow = categories.getName();
-                //String jsonicon = categories.getJsonicon();
+                jsonicon = categories.getJsonicon();
                 //new JSONTask().execute("http://slaviceva40.zapto.org/ajax/jsonCategories/"+idkat);
 
                 Intent intent = new Intent(DisplayListView.this, SubCategory.class);
+                intent.putExtra("iconstring", jsonicon);// all rows will have this icon in SubCategory
                 intent.putExtra("idkat", idkat);
                 intent.putExtra("clickedrow", clickedrow);
-                //intent.putExtra("iconposition", jsonicon); // all rows will have this icon in SubCategory
                 startActivity(intent);
             }
         });
@@ -92,6 +94,10 @@ public class DisplayListView extends AppCompatActivity {
                 jelikraj = JO.getString("transaction_type_id");
                 urlsufix = JO.getString("url");
                 json = JO.getString("json"); // bit će isti za odabranu kategoriju, tj null za podkategoriju
+                json.replace("\"", "");
+                jsonObject = new JSONObject(json);
+                json = jsonObject.getString("icon");
+                json = json.replace("svg","png");
 
                 Categories categories = new Categories(idKategorije, parentId, name, urlFromJ, jelikraj, urlsufix, json);
                 categoryAdapter.add(categories);
@@ -101,18 +107,8 @@ public class DisplayListView extends AppCompatActivity {
             e.printStackTrace();
         }
 //--------------------------------------------------------------------------------------------------
-//------------------------------- parse json string in json file -----------------------------------
-//--------------------------------------------------------------------------------------------------
-       /*
-        String[] separated = json.split(",");
-        Categories categories = (Categories) categoryAdapter.getItem(0);
-        jsonstring = categories.getJsonicon();
-        Toast.makeText(getApplicationContext(),jsonstring, Toast.LENGTH_LONG).show(); // za dobivanje ikone na 6 poziciji u JSON file
-        */
-//--------------------------------------------------------------------------------------------------
         categoryAdapter.notifyDataSetChanged();
     }
-
 //--------------------------------------------------------------------------------------------------
 // ---------------------------------- back arrow in ActionMenu -------------------------------------
 //--------------------------------------------------------------------------------------------------

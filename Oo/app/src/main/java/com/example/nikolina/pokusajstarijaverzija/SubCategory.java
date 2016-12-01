@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ import java.net.URL;
 
 public class SubCategory extends AppCompatActivity {
 
-	String json_string;
+	String json_string, icon;
 	JSONArray jsonArray;
 	CategoryAdapter categoryAdapter;
 	ListView listView;
@@ -49,9 +50,12 @@ public class SubCategory extends AppCompatActivity {
 
 		idBotuna = getIntent().getExtras().getString("idkat");
 		clicked = getIntent().getExtras().getString("clickedrow");
+		icon = getIntent().getExtras().getString("iconstring");
 
+	//	Toast.makeText(getApplicationContext(), icon, Toast.LENGTH_SHORT).show();
 	//	final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
 		final TextView t3 = (TextView) findViewById(R.id.id_tv);
+        ImageView iv = (ImageView) findViewById(R.id.id_icon);
 
 		/*btnnavigate.setOnClickListener(new AdapterView.OnClickListener(){
 
@@ -75,7 +79,6 @@ public class SubCategory extends AppCompatActivity {
 		listView = (ListView) findViewById(R.id.id_listview_sub);
 		categoryAdapter = new CategoryAdapter(this, R.layout.row_layout);
 
-
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
@@ -89,6 +92,7 @@ public class SubCategory extends AppCompatActivity {
 
 				if ("null".equals(isEnd)) {
 					Intent intent = new Intent(SubCategory.this, SubCategory2.class);
+
 					intent.putExtra("idcat", idkat); //id kategorije za url
                     intent.putExtra("clicked", clicked); // prije klinuti
                     intent.putExtra("clickedrow2", clickedrow2); // zadnji kliknuti - ime kliknutog reda stavlja se u btn

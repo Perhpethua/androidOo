@@ -49,6 +49,7 @@ public class Search extends AppCompatActivity {
         // kada bude promjena urlFull se mijenja na fullUrl = "http://slaviceva40.zapto.org/mob/searchAd/" + param1 + "/" + idcat;
        // String urlFull = "http://www.oglasnik.hr/search?q=" + urlsufix + "#classifieds";
         String urlFull = "http://slaviceva40.zapto.org/mob?q=" + query + "&category_id=" + idcat;
+        Toast.makeText(getApplicationContext(), urlFull, Toast.LENGTH_LONG).show();
         webViewSearch.loadUrl(urlFull);
 
 //------------------------------improve WebView performance-----------------------------------------

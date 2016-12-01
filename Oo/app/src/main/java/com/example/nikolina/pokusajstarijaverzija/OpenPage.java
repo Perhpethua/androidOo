@@ -19,6 +19,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OpenPage extends AppCompatActivity {
 
@@ -64,7 +65,7 @@ public class OpenPage extends AppCompatActivity {
 //--------------------------------------------------------------
 		webViewOpenPage.getSettings().setJavaScriptEnabled(true);
 		String urlFull = "http://slaviceva40.zapto.org/mob/slug/" + urlsufix;
-		//Toast.makeText(getApplicationContext(), urlFull, Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), urlFull, Toast.LENGTH_LONG).show();
 		//t1.setText(urlFull);
 		webViewOpenPage.loadUrl(urlFull);
 

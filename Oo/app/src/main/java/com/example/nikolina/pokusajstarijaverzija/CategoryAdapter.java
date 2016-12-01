@@ -7,7 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +22,11 @@ import java.util.List;
 
 public class CategoryAdapter extends ArrayAdapter {
 	List list = new ArrayList();
+	Context context;
+
 	public CategoryAdapter(Context context, int resource) {
 		super(context, resource);
+		this.context = context;
 	}
 
 	public void add(Categories object) {
@@ -49,7 +56,8 @@ public class CategoryAdapter extends ArrayAdapter {
 			row = layoutInflater.inflate(R.layout.row_layout, parent, false);
 			categoryHolder = new CategoryHolder();
 			categoryHolder.tx_name = (TextView) row.findViewById(R.id.tx_name);
-			//categoryHolder.iv_jsonicon = (ImageView) row.findViewById(R.id.id_icon);
+			categoryHolder.iv_jsonicon = (ImageView) row.findViewById(R.id.id_icon);
+
 			row.setTag(categoryHolder);
 
 		}else {
@@ -58,14 +66,47 @@ public class CategoryAdapter extends ArrayAdapter {
 		//set resources for Views
 		Categories categories = (Categories) this.getItem(position);
 		//set resource for category holder
-//ONO ŠTO PIŠE U REDU ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//--------------------------------------------------------------------------------------------------
+//-----------------------------------ONO ŠTO PIŠE U REDU -------------------------------------------
+//--------------------------------------------------------------------------------------------------
 		categoryHolder.tx_name.setText(categories.getName());
-		//categoryHolder.tx_name.setText(categories.getUrlFromJson());
+		String iconUrlPrefix = "http://slaviceva40.zapto.org/assets/img/categories/";
+		String iconUrl = iconUrlPrefix + categories.getJsonicon();
+//--------------------------------------------------------------------------------------------------
+//------------------- prikazuje glavnu ikonu odabrane kategorije ukoliko nema zadane ikone ---------
+//--------------------------------------------------------------------------------------------------
+		String key = "png";
+		if (categories.getJsonicon().equals("null") || !categories.getJsonicon().contains(key)){ // nemaju svi paramteri null --> fancy icon
+			String iconUrlSufix = DisplayListView.jsonicon;
+			String iconUrlOld = iconUrlPrefix + iconUrlSufix;
+			Picasso.with(context).load(iconUrlOld) //"http://image.flaticon.com/teams/new/1-freepik.jpg"
+					.placeholder(R.mipmap.logo) //optional
+					.error(R.mipmap.logo) //ic_launcher
+					.into(categoryHolder.iv_jsonicon, new com.squareup.picasso.Callback() {
+
+						@Override
+						public void onSuccess() { /*Toast.makeText(context,"Success icon", Toast.LENGTH_SHORT).show();*/ }
+						@Override
+						public void onError() {	Toast.makeText(context, "Error icon", Toast.LENGTH_SHORT).show(); }
+					});
+		}else {
+			Picasso.with(context).load(iconUrl) //"http://image.flaticon.com/teams/new/1-freepik.jpg"
+					.placeholder(R.mipmap.logo) //optional
+					.error(R.mipmap.logo) //ic_launcher
+					.into(categoryHolder.iv_jsonicon, new com.squareup.picasso.Callback() {
+
+						@Override
+						public void onSuccess() { /*Toast.makeText(context,"Success icon", Toast.LENGTH_SHORT).show();*/ }
+						@Override
+						public void onError() {	Toast.makeText(context, "Error icon", Toast.LENGTH_SHORT).show(); }
+					});
+			//categoryHolder.tx_name.setText(categories.getUrlFromJson());
+		}
 		return row;
 	}
 
 	static class CategoryHolder{
 		TextView tx_name;
-		//ImageView iv_jsonicon;
+		ImageView iv_jsonicon;
 	}
 }

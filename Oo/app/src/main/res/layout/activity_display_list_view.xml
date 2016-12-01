@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     android:id="@+id/activity_display_list_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -26,4 +27,4 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/id_tv"/>
 
-</RelativeLayout>
+</LinearLayout>
