@@ -18,14 +18,20 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpenPage extends AppCompatActivity {
 
 	String idcat, urlsufix;
 	WebView webViewOpenPage;
 	String one, two, three;
+	private Spinner spinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +42,15 @@ public class OpenPage extends AppCompatActivity {
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setIcon(R.mipmap.full_white_logo_m);
 
+		addItemsOnSpinner();
+//--------------------------------------------------------------------------------------------------
 		idcat = getIntent().getExtras().getString("idcat");
 		urlsufix = getIntent().getStringExtra("urlsufix"); // url nastavak
-		//---------------- nav location ---------------------------------------------------
+		//---------------- nav location ------------------------------------------------------------
 		one = getIntent().getExtras().getString("1");
 		two = getIntent().getExtras().getString("2");
 		three = getIntent().getExtras().getString("3");
-
+//--------------------------------------------------------------------------------------------------
 		final TextView t3 = (TextView) findViewById(R.id.id_tv);
 		final TextView t4 = (TextView) findViewById(R.id.id_tv2); //podkategorije
 		final TextView t5 = (TextView) findViewById(R.id.id_tv3); //podkategorije
@@ -84,6 +92,21 @@ public class OpenPage extends AppCompatActivity {
 		webSettings.setSavePassword(true);
 		webSettings.setSaveFormData(true);
 		webSettings.setEnableSmoothTransition(true);
+	}
+//--------------------------------------------------------------------------------------------------
+//							SPINNER
+//--------------------------------------------------------------------------------------------------
+	private void addItemsOnSpinner() {
+		spinner = (Spinner) findViewById(R.id.id_spinner);
+		List<String> list = new ArrayList<String>();
+		list.add("Cijena - najniža");
+		list.add("Cijena - najviša");
+		list.add("Datum objave - najstariji");
+		list.add("Datum objave - najnoviji");
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(dataAdapter);
 	}
 
 	public class myWebClient2 extends WebViewClient {

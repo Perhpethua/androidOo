@@ -16,7 +16,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +43,7 @@ public class SubCategory2 extends AppCompatActivity implements AsyncResponse{
 		clicked = getIntent().getExtras().getString("clicked");
 		clicked2 = getIntent().getExtras().getString("clickedrow2"); // zadnji
 
-		Toast.makeText(getApplicationContext(), idBotuna, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), idBotuna, Toast.LENGTH_SHORT).show();// works
 
 		//final Button btnnavigate = (Button)findViewById(R.id.id_btn_navigate);
 		final TextView t3 = (TextView) findViewById(R.id.id_tv);

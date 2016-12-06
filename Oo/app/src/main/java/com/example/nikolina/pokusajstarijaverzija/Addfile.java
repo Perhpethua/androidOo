@@ -75,7 +75,7 @@ public class Addfile extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    // ---------------------------------- back arrow in menu ---------------------------------------------
+// ---------------------------------- back arrow in menu -------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present

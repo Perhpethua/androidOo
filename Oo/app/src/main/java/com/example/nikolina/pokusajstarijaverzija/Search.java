@@ -51,7 +51,9 @@ public class Search extends AppCompatActivity {
         String urlFull = "http://slaviceva40.zapto.org/mob?q=" + query + "&category_id=" + idcat;
         Toast.makeText(getApplicationContext(), urlFull, Toast.LENGTH_LONG).show();
         webViewSearch.loadUrl(urlFull);
-
+// force WebView to show content not zoomed---------------------------------------------------------
+        webViewSearch.getSettings().setLoadWithOverviewMode(true);
+        webViewSearch.getSettings().setUseWideViewPort(true);
 //------------------------------improve WebView performance-----------------------------------------
 //--------------------------------------------------------------------------------------------------
         webViewSearch.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
