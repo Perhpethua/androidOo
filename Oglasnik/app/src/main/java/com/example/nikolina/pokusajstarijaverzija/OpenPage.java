@@ -19,6 +19,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class OpenPage extends AppCompatActivity {
 	WebView webViewOpenPage;
 	String one, two, three;
 	private Spinner spinner;
+	Button nav_btn_back, nav_btn_1, nav_btn_2, nav_btn_next;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,13 @@ public class OpenPage extends AppCompatActivity {
 		final TextView t3 = (TextView) findViewById(R.id.id_tv);
 		final TextView t4 = (TextView) findViewById(R.id.id_tv2); //podkategorije
 		final TextView t5 = (TextView) findViewById(R.id.id_tv3); //podkategorije
+//--------------------------------------------------------------------------------------------------
+		nav_btn_back = (Button) findViewById(R.id.id_btn_nav_1);
+		nav_btn_1 = (Button) findViewById(R.id.id_btn_nav_2);
+		nav_btn_2 = (Button) findViewById(R.id.id_btn_nav_3);
+		nav_btn_next = (Button) findViewById(R.id.id_btn_nav_5);
+
+		setButtonListeners();
 
         t3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textview_animation));
 		t3.setText(" " + one);
@@ -72,8 +81,10 @@ public class OpenPage extends AppCompatActivity {
 		webViewOpenPage.setWebViewClient(new myWebClient2());
 //--------------------------------------------------------------
 		webViewOpenPage.getSettings().setJavaScriptEnabled(true);
-		String urlFull = "http://slaviceva40.zapto.org/mob/slug/" + urlsufix;
-		Toast.makeText(getApplicationContext(), urlFull, Toast.LENGTH_LONG).show();
+		//"http://slaviceva40.zapto.org/mob/slug/" + urlsufix;
+		//http://slaviceva40.zapto.org/mob?q=&category_id=2
+		String urlFull = "http://slaviceva40.zapto.org/mob?q=&category_id=" + idcat;
+		//Toast.makeText(getApplicationContext(), urlFull, Toast.LENGTH_LONG).show();
 		//t1.setText(urlFull);
 		webViewOpenPage.loadUrl(urlFull);
 
@@ -93,11 +104,52 @@ public class OpenPage extends AppCompatActivity {
 		webSettings.setSaveFormData(true);
 		webSettings.setEnableSmoothTransition(true);
 	}
+
+	private void setButtonListeners() {
+// ----------------- BACK btn ----------------------------------------------------------------------
+		nav_btn_back.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+                //PROČITATI VRIJEDNOST AKTIVNOG BOTUNA - UMANJITI JE ZA 1
+                //DOBIVENA VRIJEDNOST -- U VARIJABLU VA
+                //VA SE KORISTI ZA KREIRANJE LINKA KOJI SE POZIVA UNUTAR ISTOG WEBVIEW
+			}
+		});
+// ----------------- PAGE 1 btn --------------------------------------------------------------------
+		nav_btn_1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+                nav_btn_1.setText("3");
+                nav_btn_2.setText("4");
+
+                //webViewOpenPage.loadUrl(myCustomUrl); //radi
+			}
+		});
+// ----------------- PAGE 2 btn --------------------------------------------------------------------
+		nav_btn_2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+                //webViewOpenPage.loadUrl(myCustomUrl); //radi
+			}
+		});
+// ----------------- NEXT btn ----------------------------------------------------------------------
+		nav_btn_next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+                //PROČITATI VRIJEDNOST AKTIVNOG BOTUNA - UVEČATI JE ZA 1
+                //DOBIVENA VRIJEDNOST -- U VARIJABLU VA
+                //VA SE KORISTI ZA KREIRANJE LINKA KOJI SE POZIVA UNUTAR ISTOG WEBVIEW
+
+
+                //webViewOpenPage.loadUrl(myCustomUrl); //radi
+			}
+		});
+	}
 //--------------------------------------------------------------------------------------------------
 //							SPINNER
 //--------------------------------------------------------------------------------------------------
 	private void addItemsOnSpinner() {
-		spinner = (Spinner) findViewById(R.id.id_spinner);
+		//spinner = (Spinner) findViewById(R.id.id_spinner);
 		List<String> list = new ArrayList<String>();
 		list.add("Cijena - najniža");
 		list.add("Cijena - najviša");
@@ -106,7 +158,7 @@ public class OpenPage extends AppCompatActivity {
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, list);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(dataAdapter);
+		//spinner.setAdapter(dataAdapter);
 	}
 
 	public class myWebClient2 extends WebViewClient {
@@ -135,7 +187,7 @@ public class OpenPage extends AppCompatActivity {
 	}
 
 
-	// ---------------------------------- back arrow in menu ---------------------------------------------
+// ---------------------------------- back arrow in menu -------------------------------------------
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu); //this adds items to action bar if it is present

@@ -7,6 +7,7 @@ package com.example.nikolina.pokusajstarijaverzija;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -16,10 +17,12 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Search extends AppCompatActivity {
     WebView webViewSearch;
+    TextView textquery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +38,11 @@ public class Search extends AppCompatActivity {
         String query = getIntent().getStringExtra("query"); // upisani parametar1 trazilice
         String idcat = getIntent().getStringExtra("idcat");
 
-        Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show(); //22
-
+        //Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show(); //22 split, zagreb...
+        textquery = (TextView) findViewById(R.id.id_tv_query_result);
         webViewSearch = (WebView) findViewById(R.id.id_webview_search);
+
+        textquery.setText(query);
         WebSettings webSettings = webViewSearch.getSettings();
         webSettings.setJavaScriptEnabled(true);
 //--------------------------------------------------------------------------------------------------
@@ -49,7 +54,7 @@ public class Search extends AppCompatActivity {
         // kada bude promjena urlFull se mijenja na fullUrl = "http://slaviceva40.zapto.org/mob/searchAd/" + param1 + "/" + idcat;
        // String urlFull = "http://www.oglasnik.hr/search?q=" + urlsufix + "#classifieds";
         String urlFull = "http://slaviceva40.zapto.org/mob?q=" + query + "&category_id=" + idcat;
-        Toast.makeText(getApplicationContext(), urlFull, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), urlFull, Toast.LENGTH_LONG).show();
         webViewSearch.loadUrl(urlFull);
 // force WebView to show content not zoomed---------------------------------------------------------
         webViewSearch.getSettings().setLoadWithOverviewMode(true);

@@ -20,10 +20,10 @@
         android:textStyle="italic"
         android:textSize="@dimen/font_size_tv_subcategories"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
         android:background="@drawable/rounded_corners"
         android:textColor="@color/btn_text_color"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
 
     <TextView
         android:layout_width="250dp"
@@ -47,18 +47,53 @@
         android:textColor="@color/btn_text_color"
         android:layout_below="@+id/id_tv2"
         android:layout_alignParentEnd="true" />
+    <!-- ******************** nav buttons *************************** -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_btn_nav_1"
+        android:layout_below="@+id/id_tv3"
+        android:text="back"/>
+
+    <Button
+        android:layout_width="@dimen/pagination_btn_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_btn_nav_2"
+        android:text="2"
+        android:layout_above="@+id/id_webview_openPage"
+        android:layout_toStartOf="@+id/id_btn_nav_3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_btn_nav_5"
+        android:layout_below="@+id/id_tv3"
+        android:layout_alignParentEnd="true"
+        android:text="Next"/>
+    <!-- ************************************************************ -->
+
     <WebView
         android:id="@+id/id_webview_openPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/id_spinner"/>
+        android:layout_below="@+id/id_btn_nav_5"
+        android:layout_marginTop="5dp"/>
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/id_spinner"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/id_tv3" />
+    <Button
+        android:layout_width="@dimen/pagination_btn_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_btn_nav_3"
+        android:text="3"
+        android:layout_below="@+id/id_tv3"
+        android:layout_alignStart="@+id/id_tv3" />
+
+
+    <!-- <Spinner
+         android:layout_width="match_parent"
+         android:layout_height="45dp"
+         android:id="@+id/id_spinner"
+         android:layout_centerHorizontal="true"
+         android:layout_below="@+id/id_tv3" />-->
 </RelativeLayout>
